@@ -1,0 +1,2 @@
+[home]
+media ansible_host=10.10.10.134 ansible_user=liam ansible_connection=ssh ansible_ssh_private_key=/home/liam/.ssh/id_rsa 

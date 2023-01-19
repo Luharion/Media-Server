@@ -1,0 +1,111 @@
+---
+version: '3'
+services:
+    jellyseerr:
+       image: fallenbagel/jellyseerr:latest
+       container_name: jellyseerr
+       environment:
+            - LOG_LEVEL=debug
+            - TZ=America/Chicago
+       ports:
+            - 5055:5055
+       volumes:
+            - /home/liam/docker/Config/jellyseerr:/app/config
+       restart: unless-stopped
+
+version: "2.1"
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+    volumes:
+      - /home/liam/docker/Config/plex:/config
+      - /home/liam/docker/media/TV:/tv
+      - /home/liam/docker/media/Movies:/movies
+    restart: unless-stopped
+version: "2.1"
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - /home/liam/docker/Config/sonarr:/config
+      - /home/liam/docker/media/TV:/tv #optional
+      - /home/liam/docker/downloads:/downloads #optional
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+version: "2.1"
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - /home/liam/docker/Config/raddarr:/config
+      - /home/liam/docker/media/Movies:/movies #optional
+      - /home/liam/docker/downloads:/downloads #optional
+    ports:
+      - 7878:7878
+    restart: unless-stoppe
+version: "2.1"
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - /home/liam/docker/Config/transmission:/config
+      - /home/liam/docker/downloads:/downloads
+      - /home/liam/docker/watch:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+version: "2.1"
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Ameica/Chicago
+    volumes:
+      - /home/liam/docker/Config/jellyfin:/config
+      - /home/liam/docker/media/TV:/data/tvshows
+      - /home/liam/docker/media/Movies:/data/movies
+    ports:
+      - 8096:8096
+    restart: unless-stopped
+version: "2.1"
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Ameica/Chicago
+    volumes:
+      - /home/liam/docker/config/prowler/:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+

@@ -1,0 +1,6 @@
+username: liam
+packages:
+  - neovim
+  - htop
+  - neofetch
+

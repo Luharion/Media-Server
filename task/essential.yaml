@@ -1,0 +1,31 @@
+- name: update
+  apt:
+    update_cache: yes
+    upgrade: yes
+- name: install pack
+  package:
+    name:
+      - vim
+      - neofetch
+      - htop
+    state: latest
+  
+- name: Disable SSH password auth
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#PasswordAuthentication yes"
+    line: "PasswordAuthenticantion  no"
+
+
+- name: Enable passwordless sudo for liam
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: "^%wheel"
+    line: "liam ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"
+- name: Restart SSH
+  services:
+    name: sshd
+    state: restarted
+  when: sshd_config.changed
+
